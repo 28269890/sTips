@@ -1,7 +1,9 @@
 /*
 	jQuery 鼠标提示插件 v2.0
 
+	https://github.com/28269890/sTips
 
+	Demo：https://28269890.github.io/sTips
 
 */
 (function($){
