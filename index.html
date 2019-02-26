@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>sTips - Demo</title>
+<link rel="stylesheet" type="text/css" href="jquery.sTips.css">
+<style type="text/css">
+hr{
+	margin: 100px 0 0 0;
+    border: #fb0000 solid; 
+    border-width: 1px 0 0 0;
+}
+.div{
+    border: 1px solid #ccc; 
+	margin:10px;
+	padding:10px;
+}
+.td{
+    border: 1px solid #ccc; 
+	padding:10px;
+}
+table{
+	border-spacing: 0;
+	text-align: center;
+}
+</style>
+
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.14.2/styles/monokai-sublime.min.css">
+<script src="https://cdn.bootcss.com/highlight.js/9.14.2/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script> 
+<script src="jquery.sTips.js"></script>
+</head>
+<body>
+<h1>CSS：</h1>
+
+<pre>
+	<code class="css">
+.sTips{
+    position: absolute;
+    padding: 2px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    max-width: 400px;
+    background-color: #fff;
+}
+	</code>
+</pre>	
+<hr>
+<h1>插件简单说明</h1>
+sTips是针对标签属性 alt 和 title 的增强插件。<br>
+title属性优先于alt属性，被本插件激活功能的元素的这两项属性将被删除。<br>
+提示内容框结构:
+<div class="div" style="width:300px;">
+	<div class="div">sTipsTop</div>
+	<div class="div">sTipsBody</div>
+</div>
+默认情况下sTipsTop和sTipsBody的样式是空的，只有最外层的div做了简单的样式。<br>
+sTipsTop和sTipsBody的内容由 alt 或 title 的内容中获取。<br>
+alt 或 title的值以{||}分割为sTipsTop和sTipsBody的值。<br>
+sTipsBody以ajax:开头则会提示ajax:后面的地址返回的html数据。<br>
+sTipsBody以fn:开头则会返回fn:后的函数的返回值。<br>
+
+
+固定提示位置：(position的值)
+<table>
+<tr>
+	<td class="td">1：左上角对齐</td>
+	<td class="td">11：上方显示对齐左边框</td>
+	<td></td>
+	<td class="td">21：上方显示对齐右边框</td>
+	<td class="td">2：右上角对齐</td>
+</tr>
+<tr>
+	<td class="td">12：左侧显示对齐上边框</td>
+	<td colspan=3 rowspan=3 >提示元素</td>
+	<td class="td">22：右边显示对齐上边框</td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td class="td">41：左侧显示对齐下边框</td>
+	<td class="td">31：右侧显示对齐下边框</td>
+</tr>
+<tr>
+	<td class="td">4：左下角对齐</td>
+	<td class="td">42：下方显示对齐左边框</td>
+	<td></td>
+	<td class="td">32：下方显示对齐右边框</td>
+	<td class="td">3：右下角对齐</td>
+</tr>
+</table>
+跟随鼠标位置：(mouse的值)
+
+<table>
+<tr>
+	<td class="td">1</td>
+	<td></td>
+	<td class="td">2</td>
+</tr>
+<tr>
+	<td></td>
+	<td>鼠标位置</td>
+	<td></td>
+</tr>
+<tr>
+	<td class="td">3</td>
+	<td></td>
+	<td class="td">4</td>
+</tr>
+</table>
+
+
+
+
+
+
+<hr>
+<h1>DEMO1 : 基本功能</h1>
+JS Code:
+<pre>
+	<code class="javascript">
+$("#Demo1").sTips()
+	</code>
+</pre>	
+HTML Code:
+<pre>
+	<code class="html">
+这是一个提示：< span title="提示内容" id="Demo1">请将鼠标移动到这里< /span>
+	</code>
+</pre>	
+
+这是一个提示：<span title="提示内容" id="Demo1">请将鼠标移动到这里</span>
+
+
+
+
+
+
+
+
+
+
+
+<hr>
+<h1>DEMO2 : 鼠标跟随</h1>
+JS Code:
+<pre>
+	<code class="javascript">
+$("#Demo2").sTips({
+	mouse:2
+})
+	</code>
+</pre>
+HTML Code:
+<pre>
+	<code class="html">
+这是一个提示：< span title="Demo2：{||}提示内容" id="Demo2">请将鼠标移动到这里< /span>
+	</code>
+</pre>	
+
+这是一个提示：<span title="Demo2：{||}提示内容" id="Demo2">请将鼠标移动到这里</span>
+
+
+
+
+
+
+
+
+
+
+<hr>
+<h1>DEMO3 : 应用到多个</h1>
+JS Code:
+<pre>
+	<code class="javascript">
+$(".Demo3").sTips()
+	</code>
+</pre>	
+HTML Code:
+<pre>
+	<code class="html">
+这是多个提示：< span title="Demo3：{||}提示内容" class="Demo3">请将鼠标移动到这里< /span> < span title="Demo3：{||}提示内容" class="Demo3">请将鼠标移动到这里< /span> < span title="Demo3：{||}提示内容" class="Demo3">请将鼠标移动到这里< /span>
+	</code>
+</pre>	
+
+这是多个提示：<span title="Demo3：{||}提示内容" class="Demo3">请将鼠标移动到这里</span> <span title="Demo3：{||}提示内容" class="Demo3">请将鼠标移动到这里</span> <span title="Demo3：{||}提示内容" class="Demo3">请将鼠标移动到这里</span><br>
+jQuery选择器可使用each方法时有效。
+
+
+
+
+
+<hr>
+<h1>DEMO4 : AJAX</h1>
+JS Code:
+<pre>
+	<code class="javascript">
+$("#Demo4").sTips()
+	</code>
+</pre>
+HTML Code:
+<pre>
+	<code class="html">
+这是一个提示：< span title="Demo4：{||}ajax:demo.html" id="Demo4">请将鼠标移动到这里< /span>
+	</code>
+</pre>	
+
+这是一个提示：<span title="Demo4：{||}ajax:demo.html" id="Demo4">请将鼠标移动到这里</span>
+
+
+
+
+<hr>
+<h1>DEMO5 : function</h1>
+JS Code:
+<pre>
+	<code class="javascript">
+function test(s){
+	return s
+}
+$("#Demo5").sTips()
+	</code>
+</pre>
+HTML Code:
+<pre>
+	<code class="html">
+这是一个提示：< span title="Demo5：{||}fn:test('这是个函数')" id="Demo5">请将鼠标移动到这里< /span>
+	</code>
+</pre>	
+
+这是一个提示：<span title="Demo5：{||}fn:test('这是个函数')" id="Demo5">请将鼠标移动到这里</span>
+
+
+<hr>
+<h1>默认值</h1>
+JS Code:
+<pre>
+	<code class="javascript">
+{
+	phy:1, //透明度 0-1
+	inTime:200,//淡入时间
+	outTime:200,//淡出时间
+	sTipsCss:"sTips",//给外框指定css样式
+	topCss:"sTip-Top",//给提示框头部指定css样式，值为css名称
+	bodyCss:"sTips-Body",//给主提示框指定css样式，值为css名称
+	ajaxError:"",//ajax错误提示开关，唯一值：off
+	ajaxLoading:"loading...",//ajax读取之前的信息，也可修改成图片例如：< img src="loading.gif">
+	position:2,//位置：角+排列 1：左上，2：右上，3：右下，4：左下,排列：1 2 从左到右，从上到下。
+	mousez:10,//提示框和鼠标之间的距离
+	mouse:0//鼠标跟随。1：左上，2：右上，3：左下，4：右下
+}
+	</code>
+</pre>
+<script type="text/javascript">
+	$("#Demo1").sTips({
+		position:32
+	})
+	$("#Demo2").sTips({
+		mouse:2
+	})
+	$(".Demo3").sTips()
+	$("#Demo4").sTips()
+	$("#Demo5").sTips()
+
+	function test(s){
+		return s
+	}
+</script>
+
+</body>
+</html>
