@@ -1,12 +1,36 @@
 /*
-	jQuery 鼠标提示插件 v2.0
+	jQuery 鼠标提示插件 v2.1
 
 	https://github.com/28269890/sTips
 
 	Demo：https://28269890.github.io/sTips
 
 */
+
+
+
 (function($){
+	$.fn.zIndex = function( zIndex ) {
+		if ( zIndex !== undefined ) {
+			return this.css( "zIndex", zIndex );
+		}
+
+		if ( this.length ) {
+			var elem = $( this[ 0 ] ), position, value;
+			while ( elem.length && elem[ 0 ] !== document ) {
+				position = elem.css( "position" );
+				if ( position === "absolute" || position === "relative" || position === "fixed" ) {
+					value = parseInt( elem.css( "zIndex" ), 10 );
+					if ( !isNaN( value ) && value !== 0 ) {
+						return value;
+					}
+				}
+				elem = elem.parent();
+			}
+		}
+		return 0;
+	}
+
 	$.fn.sTips = function(options) {
 		var o = $.extend({}, $.fn.sTips.defaults,options);
 
@@ -84,6 +108,19 @@
 				y = s.top + $(e).outerHeight();
 			}
 
+
+			if(x + $("#_sTips").outerWidth() >= document.body.clientWidth){
+				x = document.body.clientWidth - $("#_sTips").outerWidth() ;
+			};
+
+			if(y + $("#_sTips").outerHeight() >= document.body.clientHeight){
+				y = document.body.clientHeight - $("#_sTips").outerHeight() ;
+			};
+
+			if (x < 0){x=0}
+			if (y < 0){y=0}
+
+
 			$("#_sTips").css({
 				"left": x,
 				"top": y
@@ -95,6 +132,9 @@
 			var _this = this
 			if(this.alt){this.sTips=this.alt;$(this).removeAttr("alt")};
 			if(this.title){this.sTips=this.title;$(this).removeAttr("title")};
+			if($(this).attr("sTips")){
+				this.sTips = $(this).attr("sTips")
+			}
 			if(this.sTips==undefined){return};
 
 
@@ -135,8 +175,6 @@
 						y = document.body.clientHeight - $("#_sTips").outerHeight() ;
 					};
 
-					console.log(document.body.scrollTop)
-
 					if (x < 0){x=0}
 					if (y < 0){y=0}
 
@@ -146,6 +184,7 @@
 					});
 				},
 				mouseenter: function() {
+
 					$("#_sTips").hide();
 					$("#_sTips").stop();
 					$("#_sTips").html("");
@@ -155,9 +194,7 @@
 					}
 					$("#_sTips").append("<div id='_sTips_body' class='"+o.bodyCss+"'></div>");
 					$("#_sTips").addClass(o.sTipsCss);
-
-					$("#_sTips").css("z-index",$(this).css("z-index")*1+1);
-
+					$("#_sTips").css("z-index",$(this).zIndex()+1);
 
 					if (this.sTipsBody.substr(0, 5)=="ajax:"){
 						$("#_sTips_body").html(o.ajaxloading);
@@ -191,9 +228,7 @@
 						$("#_sTips_body").html(this.sTipsBody);
 					};
 
-
 					sTipsPosition(this)
-
 
 					$("#_sTips").fadeTo(o.inTime,o.phy);
 
